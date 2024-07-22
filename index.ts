@@ -36,8 +36,9 @@ async function main() {
   console.log(`Mint successful: ${txn.hash}`);
 
   await myNFTContract.safeTransferFrom(myAddress, firstRecipient, 0);
-  await myNFTContract.setApprovalForAll(myAddress, true);
-  await myNFTContract.safeTransferFrom(firstRecipient, secondRecipient, 0);
+  const firstRecipientSigner = await hardhat.ethers.getImpersonatedSigner(firstRecipient);
+
+  await myNFTContract.connect(firstRecipientSigner).safeTransferFrom(firstRecipient, secondRecipient, 0);
 
 
 }
